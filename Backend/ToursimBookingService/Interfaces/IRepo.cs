@@ -1,0 +1,12 @@
+﻿namespace ToursimBookingService.Interfaces
+{
+    public interface IRepo<k,T>
+    {
+        public Task<T> Add(T item);
+        public Task<T>Delete(k key);
+
+        public Task<T> Get(k key);
+
+        public Task< ICollection<T>> GetAll();
+    }
+}

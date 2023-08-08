@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.33502.453
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToursimImagesService", "ToursimImagesService.csproj", "{EB91DD48-9E6A-4B70-B6E9-D15F7B8E8BC9}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EB91DD48-9E6A-4B70-B6E9-D15F7B8E8BC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB91DD48-9E6A-4B70-B6E9-D15F7B8E8BC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB91DD48-9E6A-4B70-B6E9-D15F7B8E8BC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB91DD48-9E6A-4B70-B6E9-D15F7B8E8BC9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9F1E7FEE-4CEE-4EED-BF4A-E06E9C25BDB8}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,53 @@
+
+.feedBackHeader {
+    display: flex;
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 20px; 
+  }
+  
+  .feedBackImage img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .feedbackForm {
+    width: 50%;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+  }
+  
+  
+  .feedbackForm h2 {
+    margin-bottom: 10px; /* Add some space below the heading */
+  }
+  
+  .feedbackForm label {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .feedbackForm input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+  }
+  
+  .feedbackForm button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color:orange;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .feedbackForm button:hover {
+    background-color: orange;
+  }
+  

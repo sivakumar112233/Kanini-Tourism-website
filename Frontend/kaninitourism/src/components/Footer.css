@@ -1,0 +1,36 @@
+/* Footer.css */
+.footer {
+    background-color: rgba(0, 0, 0, 0.861);
+    color: white;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  
+  .socialMedia {
+    display: flex;
+    gap: 30px;
+    margin-top: 20px;
+  }
+  
+  .social-icon {
+    font-size: 36px;
+    color: white;
+    transition: color 0.3s;
+  }
+  
+  .social-icon:hover {
+    color: orange;
+  }
+  
+  .copyRightsSection {
+    margin-top: 20px;
+    text-align: center;
+  }
+  .footerContact{
+    height: 15%;
+
+  }
+  

@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "nGrFzfQytKCUQlU+l+oeWOojZO5qikImMo0UF4iKu0g=",
+  "Source": "ToursimPackageService",
+  "BasePath": "_content/ToursimPackageService",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}
