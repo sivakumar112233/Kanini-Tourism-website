@@ -14,7 +14,7 @@ import Navbar from './Navbar';
 
 function TourPackages() {
   const [tourPackages, setTourPackages] = useState([]);
-  const [selectedSpecialty, setSelectedSpecialty] = useState('beach');
+  const [selectedSpecialty, setSelectedSpecialty] = useState('Beach');
 
   useEffect(() => {
     fetch(`http://localhost:5299/api/Tour/GettingAllTourNamesBySpeciality?tourSpecialty=${selectedSpecialty}`)
@@ -30,12 +30,16 @@ function TourPackages() {
           return Promise.all([tourDetailsPromise, tourImagesPromise])
             .then(([details, images]) => {
               const totalNights = details?.inclusion?.totalNights || 0;
+             
               return {
                 tourId: tour.tourId,
                 tourName: tour.tourName,
                 tourPrice: details.tourPrice || 0,
                 totalNights: totalNights,
+                tourLocationState: details.tourLocationState, 
+                totalDays: details.totalDays ,
                 images: images,
+              
               };
             });
         });
@@ -56,7 +60,7 @@ function TourPackages() {
        <Navbar/>
       </div>
       <div className='navSection'>
-        <button onClick={() => setSelectedSpecialty('beach')} className={selectedSpecialty === 'beach' ? 'active' : ''}>
+        <button onClick={() => setSelectedSpecialty('Beach')} className={selectedSpecialty === 'beach' ? 'active' : ''}>
           <FaUmbrellaBeach /> Beach
         </button>
         <button onClick={() => setSelectedSpecialty('heritage')} className={selectedSpecialty === 'heritage' ? 'active' : ''}>
@@ -68,7 +72,7 @@ function TourPackages() {
         <button onClick={() => setSelectedSpecialty('Pilgrimage')} className={selectedSpecialty === 'Pilgrimage' ? 'active' : ''}>
           <FaChurch /> Pilgrimage
         </button>
-        <button onClick={() => setSelectedSpecialty('Adventure')} className={selectedSpecialty === 'Adventure' ? 'active' : ''}>
+        <button onClick={() => setSelectedSpecialty('adventure')} className={selectedSpecialty === 'Adventure' ? 'active' : ''}>
           <FaHiking /> Adventure
         </button>
       </div>
@@ -92,7 +96,7 @@ function TourPackages() {
                 </div>
                 <div className="tourLocation">
                   <FaMapMarkerAlt className="icon orange" />
-                  <span>{tour.location}</span>
+                  <span>{tour.tourLocationState}</span>
                 </div>
                 <div className="tourDuration">
                   <FaCalendar className="icon orange" />
@@ -101,7 +105,7 @@ function TourPackages() {
                   </span>
                 </div>
               </div>
-              <Link to={`/tour-details/${tour.tourId}`} className="read-more">
+              <Link to={`/tour-details/${tour.tourId}`} className="readMore">
                 Read More
               </Link>
             </div>

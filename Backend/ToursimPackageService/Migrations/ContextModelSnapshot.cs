@@ -55,10 +55,12 @@ namespace ToursimPackageService.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("InclusionId"));
 
                     b.Property<string>("Accommodation")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<string>("Meals")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("TotalDays")
                         .HasColumnType("int");
@@ -70,9 +72,13 @@ namespace ToursimPackageService.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Transfer")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("InclusionId");
+
+                    b.HasIndex("TourId")
+                        .IsUnique();
 
                     b.ToTable("Inclusion");
                 });
@@ -85,36 +91,36 @@ namespace ToursimPackageService.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TourId"));
 
-                    b.Property<int>("InclusionId")
-                        .HasColumnType("int");
-
                     b.Property<int>("MaxCount")
                         .HasColumnType("int");
 
                     b.Property<string>("TourLocationCity")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("TourLocationCountry")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("TourLocationState")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("TourName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<float?>("TourPrice")
                         .HasColumnType("real");
 
                     b.Property<string>("TourSpecialty")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("TravelAgentId")
                         .HasColumnType("int");
 
                     b.HasKey("TourId");
-
-                    b.HasIndex("InclusionId");
 
                     b.ToTable("Tours");
                 });
@@ -130,20 +136,25 @@ namespace ToursimPackageService.Migrations
                     b.Navigation("Inclusion");
                 });
 
-            modelBuilder.Entity("ToursimPackageService.Models.Tours", b =>
+            modelBuilder.Entity("ToursimPackageService.Models.Inclusion", b =>
                 {
-                    b.HasOne("ToursimPackageService.Models.Inclusion", "Inclusion")
-                        .WithMany()
-                        .HasForeignKey("InclusionId")
+                    b.HasOne("ToursimPackageService.Models.Tours", "Tour")
+                        .WithOne("Inclusion")
+                        .HasForeignKey("ToursimPackageService.Models.Inclusion", "TourId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Inclusion");
+                    b.Navigation("Tour");
                 });
 
             modelBuilder.Entity("ToursimPackageService.Models.Inclusion", b =>
                 {
                     b.Navigation("TotalDaysDescriptions");
+                });
+
+            modelBuilder.Entity("ToursimPackageService.Models.Tours", b =>
+                {
+                    b.Navigation("Inclusion");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,6 +1,8 @@
 import React from 'react';
 import { FaGoogle, FaYahoo, FaFacebook, FaCar, FaBus, FaHotel } from 'react-icons/fa';
-import about from '../Images/about.jpeg';
+
+
+import travel from'../Images/travel.jpg';
 import './AboutUs.css';
 import Footer from './Footer';
 import Navbar from './Navbar';
@@ -13,7 +15,7 @@ function AboutUs() {
       </div>
       <div className='aboutUsContainer'>
         <div className='aboutUsImage'>
-          <img src={about} alt="about" />
+          <img src={travel} alt="about" />
         </div>
         <div className='aboutUsDescription'>
           <h1>About Kanini Tourism</h1>

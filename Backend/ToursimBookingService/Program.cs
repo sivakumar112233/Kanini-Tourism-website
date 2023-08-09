@@ -5,15 +5,7 @@ using ToursimBookingService.Repositories;
 using ToursimBookingService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddCors(opts =>
-{
-    opts.AddPolicy("ReactCors", policy =>
-    {
-        policy.AllowAnyHeader()
-        .AllowAnyMethod()
-        .AllowAnyOrigin();
-    });
-});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -25,11 +17,17 @@ builder.Services.AddDbContext<Context>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("Configuration"));
 });
-#region
 builder.Services.AddScoped<IRepo<int, Booking>, BookingRepository>();
 builder.Services.AddScoped<IToursimBooking, TourBookingService>();
-#endregion
-
+builder.Services.AddCors(opts =>
+{
+    opts.AddPolicy("ReactCors", policy =>
+    {
+        policy.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
 var app = builder.Build();
 
 
@@ -46,6 +44,7 @@ if (app.Environment.IsDevelopment())
 app.UseCors("ReactCors");
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

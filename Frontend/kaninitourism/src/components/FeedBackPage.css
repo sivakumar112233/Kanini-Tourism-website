@@ -21,7 +21,7 @@
   
   
   .feedbackForm h2 {
-    margin-bottom: 10px; /* Add some space below the heading */
+    margin-bottom: 10px; 
   }
   
   .feedbackForm label {
@@ -50,4 +50,8 @@
   .feedbackForm button:hover {
     background-color: orange;
   }
+  .error {
+    color: red;
+  }
+  
   

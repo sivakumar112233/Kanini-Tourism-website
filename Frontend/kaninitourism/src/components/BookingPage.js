@@ -9,6 +9,7 @@ import Footer from './Footer';
 function BookingPage() {
   const { tourId, tourPrice, maxCount } = useParams();
   const tourData = useSelector((state) => state.tours.tourData);
+  const [storedObject, setStoredObject] = useState(null);
   const selectedTour= tourData.find((tour) => tour.tourId === parseInt(tourId));
   const [bookingDate, setBookingDate] = useState(new Date());
   const [bookingCount, setBookingCount] = useState(0);
@@ -72,32 +73,33 @@ function BookingPage() {
   };
 
   const handleSubmit = async () => {
-    setTravellerId(localStorage.getItem('userId'));
+    setTravellerId(localStorage.getItem("userId")); 
     console.log(travellerId);
     try {
-
       const bookingData = {
-        travellerId:parseInt(travellerId),
+        travellerId:43,
         tourId: parseInt(tourId),
         noOfPersons: noOfPersons,
         bookingDate: bookingDate.toISOString(),
         bookingUsers: bookingUsers,
       };
-
+      console.log(bookingData);
       const response = await fetch(`http://localhost:5103/api/ToursimBooking`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(bookingData),
+        body: JSON.stringify({...bookingData}),
       });
 
       if (response.status === 201) {
         const responseData = await response.json();
         setShowPdfLink(true);
+        setBookingDate(new Date());
+      setNoOfPersons(1);
+      setBookingUsers([]);
         
       } else {
-        // Handling error cases
         console.log(response);
       }
     } catch (error) {
@@ -105,13 +107,12 @@ function BookingPage() {
     }
   };
 
-  // creating document
   const MyDocument = () => (
     <Document>
       <Page style={styles.page}>
         <View style={styles.section}>
-          <Text style={styles.textOrange}>Tour ID: {tourId}</Text>
-          <Text style={styles.textOrange}>Price per person: ${tourPrice}</Text>
+
+          <Text style={styles.textOrange}>Price per person: ${tourPrice*noOfPersons}</Text>
           <Text style={styles.textOrange}>Booking Date: {bookingDate.toISOString().substr(0, 10)}</Text>
           <Text style={styles.textOrange}>Number of Persons: {noOfPersons}</Text>
         </View>
@@ -243,14 +244,16 @@ function BookingPage() {
             </div>
           ))}
         </div>
-        <button onClick={handleSubmit} className="submitButton" disabled={noOfPersons > availableSlots}>
+        <button onClick={handleSubmit} className="submitButton">
           Submit Booking
         </button>
+        <span style={{"textDecoration":"none"}}>
         {showPdfLink && (
           <PDFDownloadLink document={<MyDocument bookingData={null} />} fileName="booking.pdf">
-            {({ loading }) => (loading ? 'Loading document...' : 'Download PDF')}
+            {({ loading }) => (loading ? 'Loading document...' : 'Download InVoice')}
           </PDFDownloadLink>
         )}
+        </span>
         {noOfPersons > availableSlots && (
           <p>Only {availableSlots} slots left. Please select a lower number of persons or check again later.</p>
         )}

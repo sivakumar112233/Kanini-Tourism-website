@@ -1,4 +1,5 @@
-﻿using ToursimPackageService.Interfaces;
+﻿using Microsoft.EntityFrameworkCore;
+using ToursimPackageService.Interfaces;
 using ToursimPackageService.Model;
 using ToursimPackageService.Models;
 
@@ -39,14 +40,9 @@ namespace ToursimPackageService.Repositories
             return null;
         }
 
-        public async  Task<ICollection<TotalDaysDescription>?> GetAll()
+        public async Task<ICollection<TotalDaysDescription>?> GetAll()
         {
-            var totalDaysDescriptions= _context.TotalDaysDescriptions.ToList();
-            if (totalDaysDescriptions.Count > 0)
-            {
-                return totalDaysDescriptions;
-            }
-            return null;
+           return await _context.TotalDaysDescriptions.ToListAsync();
         }
 
         public Task<TotalDaysDescription?> Update(TotalDaysDescription item)

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -153,6 +154,13 @@ namespace ToursimPackageService.Services
             }
 
             throw new Exception("Unable to retrieve tour details at this moment");
+        }
+
+
+        public async Task<ICollection<TotalDaysDescription>> GetAllDescriptions()
+        {
+            var descriptions =  await _totalDaysDetailsRepository.GetAll();
+            return descriptions.ToList();
         }
        
     }

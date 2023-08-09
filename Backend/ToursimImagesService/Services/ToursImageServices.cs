@@ -43,7 +43,7 @@ namespace ToursimImagesService.Services
         {
             
             // Connect to Azure Blob Storage
-            string connectionString = "BlobEndpoint=http://127.0.0.1:8888/devstoreaccount1;SharedAccessSignature=sv=2018-03-28&spr=https%2Chttp&st=2023-08-08T08%3A15%3A24Z&se=2023-08-09T08%3A15%3A24Z&sr=c&sp=racw&sig=RDUJxLkLZ6nJcJivG2gUjHgyL3FXZ0O4mC0k9aNNBGs%3D";
+            string connectionString = "BlobEndpoint=http://127.0.0.1:8888/devstoreaccount1;SharedAccessSignature=sv=2021-10-04&ss=btqf&srt=sco&st=2023-08-09T17%3A25%3A27Z&se=2023-08-14T17%3A25%3A00Z&sp=rwdflacu&sig=03LZnT0%2FbO28uzmzGlSIPWmZrhR6WdXZwJf9Cr51ImU%3D";
 
             BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
 

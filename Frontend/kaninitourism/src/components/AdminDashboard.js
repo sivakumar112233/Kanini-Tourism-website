@@ -15,7 +15,7 @@ function AdminDashboard() {
   }, []);
   const handleLogout = () => {
   
-    localStorage.removeItem('adminCredentials');
+    localStorage.removeItem('Credentials');
     navigate('/');
   };
   const fetchTravelAgents = async () => {

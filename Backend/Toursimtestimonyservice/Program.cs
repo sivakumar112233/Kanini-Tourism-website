@@ -15,7 +15,20 @@ builder.Services.AddDbContext<Context>(opt => opt.UseSqlServer(builder.Configura
 builder.Services.AddScoped<IRepo<int, FeedBack>, FeedBackRepository>();
 builder.Services.AddScoped<IFeedBackService, FeedBackService>();
 
+builder.Services.AddCors(opts =>
+{
+    opts.AddPolicy("ReactCors", policy =>
+    {
+        policy.AllowAnyHeader()
+        .AllowAnyMethod()
+        .AllowAnyOrigin();
+    });
+});
 var app = builder.Build();
+
+
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -24,6 +37,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("ReactCors");
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

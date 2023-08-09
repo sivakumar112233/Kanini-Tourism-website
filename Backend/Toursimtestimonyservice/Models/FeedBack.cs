@@ -5,17 +5,19 @@ namespace Toursimtestimonyservice.Models
     public class FeedBack
     {
         [Key]
-        public int FeddBackId { get; set; } 
+        public int FeedBackId { get; set; }
 
-        public string ?FeedbackDescription{ get; set; }  
+        [Required(ErrorMessage = "Feedback description is required.")]
+        [StringLength(500, MinimumLength = 10, ErrorMessage = "Feedback description must be between 10 and 500 characters.")]
+        public string FeedbackDescription { get; set; }
 
-        public string ? TourName { get; set; }
+        [StringLength(100, ErrorMessage = "Tour name must not exceed 100 characters.")]
+        public string TourName { get; set; }
 
-        public int? Rating { get;set; }
+        [Range(1, 5, ErrorMessage = "Rating must be between 1 and 5.")]
+        public int? Rating { get; set; }
 
-        public int? UserId{ get; set; }
-        
-
-
+        [Required(ErrorMessage = "User ID is required.")]
+        public int? UserId { get; set; }
     }
 }

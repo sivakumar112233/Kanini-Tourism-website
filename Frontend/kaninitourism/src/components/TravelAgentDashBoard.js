@@ -9,7 +9,7 @@ import {
   FaPhoneAlt,
   FaCheckCircle,
   FaTimesCircle,
-  FaSignOutAlt 
+  FaSignOutAlt
 } from 'react-icons/fa';
 import { MdAttachEmail } from 'react-icons/md';
 import Footer from './Footer';
@@ -22,7 +22,7 @@ function TravelAgentDashboard() {
   const [travelAgentInfo, setTravelAgentInfo] = useState(null);
   const [addedTourId, setAddedTourId] = useState(null);
   const [formSubmitted, setFormSubmitted] = useState(false);
-const navigate=useNavigate();
+  const navigate = useNavigate();
   const [tourPackage, setTourPackage] = useState({
     tourId: 0,
     tourName: '',
@@ -33,6 +33,7 @@ const navigate=useNavigate();
     tourSpecialty: '',
     maxCount: '',
     inclusion: {
+      inclusionId: 0,
       meals: '',
       accommodation: '',
       transfer: '',
@@ -40,26 +41,27 @@ const navigate=useNavigate();
       totalDays: '',
       totalDaysDescriptions: [],
     },
+    travelAgentId: 0,
     images: [],
   });
   useEffect(() => {
     fetchTravelAgentInfo();
   }, []);
   const handleLogout = () => {
-    
-    localStorage.removeItem('Credentials'); 
-    navigate('/'); 
+
+    localStorage.removeItem('Credentials');
+    navigate('/');
   };
-  const handleImageDrop = async (acceptedFiles) => {
+  const handleImageDrop = async () => {
     if (formSubmitted) {
       const formData = new FormData();
-
-      acceptedFiles.forEach((file) => {
+    
+      tourPackage.images.forEach((file) => {
         formData.append('Images', file);
       });
-
-      formData.append('TourId', addedTourId); 
-
+    
+      formData.append('TourId', addedTourId);
+    
       try {
         const response = await axios.post(
           'http://localhost:5287/api/TourImages/CreateTour',
@@ -70,16 +72,46 @@ const navigate=useNavigate();
             },
           }
         );
-
-        console.log('Images uploaded successfully:', response.data);
+  
+        if (response.status === 200) {
+          alert('Images uploaded successfully!');
+          
+          // Reset form step and other states
+          setFormStep(1);
+          setFormSubmitted(false);
+          setAddedTourId(null);
+          setTourPackage({
+            tourId: 0,
+            tourName: '',
+            tourPrice: '',
+            tourLocationCountry: '',
+            tourLocationState: '',
+            tourLocationCity: '',
+            tourSpecialty: '',
+            maxCount: '',
+            inclusion: {
+              inclusionId: 0,
+              meals: '',
+              accommodation: '',
+              transfer: '',
+              totalNights: '',
+              totalDays: '',
+              totalDaysDescriptions: [],
+            },
+            travelAgentId: 0,
+            images: [],
+          });
+        }
       } catch (error) {
         console.error('Error uploading images:', error);
       }
     }
   };
-
+  
+  
   const handleFormSubmit = async () => {
     try {
+      console.log(tourPackage, "tourpackage");
       console.log("Starting form submission...");
       const response = await axios.post(
         'http://localhost:5299/api/Tour/AddingANewTourPackage',
@@ -193,7 +225,7 @@ const navigate=useNavigate();
               name="tourPrice"
               placeholder="Tour Price"
               value={tourPackage.tourPrice}
-              onChange={handleInputChange}
+              onChange={(event) => { setTourPackage({ ...tourPackage, "tourPrice": Number(event.target.value) }) }}
             />
             <input
               type="text"
@@ -228,7 +260,7 @@ const navigate=useNavigate();
               name="maxCount"
               placeholder=" Max Count"
               value={tourPackage.maxCount}
-              onChange={handleInputChange}
+              onChange={(event) => { setTourPackage({ ...tourPackage, "maxCount": Number(event.target.value) }) }}
             />
             <button onClick={() => setFormStep(2)}>Next</button>
           </div>
@@ -263,7 +295,7 @@ const navigate=useNavigate();
               name="totalNights"
               placeholder="Total Nights"
               value={tourPackage.inclusion.totalNights}
-              onChange={handleInclusionChange}
+              onChange={(event) => { setTourPackage({ ...tourPackage, "inclusion": { ...tourPackage.inclusion, "totalNights": Number(event.target.value) } }) }}
             />
             <input
               type="number"
@@ -272,8 +304,10 @@ const navigate=useNavigate();
               value={tourPackage.inclusion.totalDays}
               onChange={handleTotalDaysChange}
             />
+            <div>
             <button onClick={() => setFormStep(1)}>Back</button>
             <button onClick={() => setFormStep(3)}>Next</button>
+            </div>
           </div>
         );
       case 3:
@@ -299,13 +333,15 @@ const navigate=useNavigate();
                 />
               </div>
             ))}
-            <button onClick={() => setFormStep(2)}>Back</button>
-            <button onClick={() => setFormStep(4)}>Next</button>
+            <div>            
+              <button onClick={() => setFormStep(2)}>Back</button>
+              <button onClick={() => setFormStep(4)}>Next</button>
+            </div>
           </div>
         );
       case 4:
         return (
-          <div className="formStep">
+          <div className="formStep ">
             <h2>Review and Submit</h2>
             <div className="reviewSection">
               <h3>Basic Package Information</h3>
@@ -317,17 +353,17 @@ const navigate=useNavigate();
               <p>Specialty: {tourPackage.tourSpecialty}</p>
               <p>Max Count: {tourPackage.maxCount}</p>
             </div>
-            <div className="reviewSection" style={{ "marginLeft": "-30px" }}>
-              <h3 style={{ "marginLeft": "-30px" }}>Inclusion Information</h3>
+            <div className="reviewSection">
+              <h3>Inclusion Information</h3>
               <p>Meals: {tourPackage.inclusion.meals}</p>
               <p>Transfer: {tourPackage.inclusion.transfer}</p>
               <p>Total Nights: {tourPackage.inclusion.totalNights}</p>
               <p>Total Days: {tourPackage.inclusion.totalDays}</p>
             </div>
-            <div className="reviewSection " style={{ "marginLeft": "-30px" }}>
+            <div className="reviewSection dayDescriptions">
               <h3>Day Descriptions</h3>
               {tourPackage.inclusion.totalDaysDescriptions.map((desc, index) => (
-                <div key={index} style={{ "marginLeft": "-20px" }}>
+                <div key={index}>
                   <h4>Day {index + 1}</h4>
                   <p>Tour Spot Name: {desc.tourSpotName}</p>
                   <p>Day Description: {desc.dayDescription}</p>
@@ -339,38 +375,38 @@ const navigate=useNavigate();
           </div>
         );
 
-      case 5:
-        return (
-          <div className="formStep">
-            <h2>Add Images</h2>
-
-            <Dropzone onDrop={handleImageDrop} accept="image/*" multiple>
-              {({ getRootProps, getInputProps }) => (
-                <div className="dropzone" {...getRootProps()}>
-                  <input {...getInputProps()} />
-                  <p>Drag & drop images here, or click to select files</p>
-                </div>
-              )}
-            </Dropzone>
-
-            <div className="droppedImages">
-              {tourPackage.images.map((image, index) => (
-                <div key={index} className="droppedImage">
-                  <img src={URL.createObjectURL(image)} alt={`Dropped ${index}`} />
-                  <button className="deleteButton" onClick={() => handleDeleteImage(index)}>
-                    <FaTrash />
-                  </button>
-                </div>
-              ))}
-            </div>
-
-            <button onClick={() => setFormStep(4)}>Back</button>
-            {formSubmitted && (
-              <button onClick={() => handleImageDrop(tourPackage.images)}>Submit</button>
-            )}
-
+        case 5:
+  return (
+    <div className="formStep">
+      <h2>Add Images</h2>
+      
+      <Dropzone onDrop={acceptedFiles => setTourPackage({...tourPackage, images: acceptedFiles})} accept="image/*" multiple>
+        {({ getRootProps, getInputProps }) => (
+          <div className="dropzone" {...getRootProps()}>
+            <input {...getInputProps()} />
+            <p>Drag & drop images here, or click to select files</p>
           </div>
-        );
+        )}
+      </Dropzone>
+      
+      <div className="droppedImages">
+        {tourPackage.images.map((image, index) => (
+          <div key={index} className="droppedImage">
+            <img src={URL.createObjectURL(image)} alt={`Dropped ${index}`} />
+            <button className="deleteButton" onClick={() => handleDeleteImage(index)}>
+              <FaTrash />
+            </button>
+          </div>
+        ))}
+      </div>
+      
+     
+      <button onClick={() => handleImageDrop()}>Submit</button>
+
+      
+    </div>
+  );
+
       default:
         return null;
     }
@@ -410,28 +446,28 @@ const navigate=useNavigate();
             <h2>Travel Agent Information</h2>
             {travelAgentInfo && (
               <div>
-                <br/>
+                <br />
                 <p>
-                  <FaUser /> Username: {travelAgentInfo.username}<br/>
+                  <FaUser /> Username: {travelAgentInfo.username}<br />
                 </p>
-                <br/>
+                <br />
                 <p>
-                  <MdAttachEmail /> Email: {travelAgentInfo.email}<br/>
+                  <MdAttachEmail /> Email: {travelAgentInfo.email}<br />
                 </p>
-                <br/>
+                <br />
                 <p>
-                  <FaUser />  Agency Name: {travelAgentInfo.agencyName}<br/>
+                  <FaUser />  Agency Name: {travelAgentInfo.agencyName}<br />
                 </p>
-                <br/>
+                <br />
                 <p>
-                  <FaPhoneAlt /> Phone Number: {travelAgentInfo.phoneNumber}<br/>
+                  <FaPhoneAlt /> Phone Number: {travelAgentInfo.phoneNumber}<br />
                 </p>
-                <br/>
+                <br />
                 <p>
                   {travelAgentInfo.isActive ? <FaCheckCircle /> : <FaTimesCircle />} IsActive
                 </p>
-                <br/>
-                <button className="logoutButton" onClick={handleLogout}>
+                <br />
+                <button className="logoutButton" style={{ "color": "orange" }} onClick={handleLogout}>
                   <FaSignOutAlt /> Logout
                 </button>
               </div>

@@ -1,4 +1,5 @@
-﻿using ToursimPackageService.Models;
+﻿using ToursimPackageService.Model;
+using ToursimPackageService.Models;
 using ToursimPackageService.Models.DTOs;
 
 namespace ToursimPackageService.Interfaces
@@ -15,6 +16,8 @@ namespace ToursimPackageService.Interfaces
         public Task<TourDetailsDTO?> GettingTourDetailsByTourId(int TourId);
       
         public Task<ICollection<TourNameDTO>> GetAllTourNameBySpeciality(string tourSpecialty);
+
+        public Task<ICollection<TotalDaysDescription>> GetAllDescriptions();
 
 
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ToursimBookingService.Interfaces;
 using ToursimBookingService.Models;
@@ -8,6 +9,7 @@ namespace ToursimBookingService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [EnableCors("ReactCors")]
     public class ToursimBookingController : ControllerBase
     {
         private IToursimBooking _toursimBookingService;

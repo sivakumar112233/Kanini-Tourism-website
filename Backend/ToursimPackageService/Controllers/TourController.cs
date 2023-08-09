@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ToursimPackageService.Interfaces;
+using ToursimPackageService.Model;
 using ToursimPackageService.Models;
 using ToursimPackageService.Models.DTOs;
 using ToursimPackageService.Services;
@@ -30,7 +31,6 @@ namespace ToursimPackageService.Controllers
             {
                 if (tours != null)
                 {
-                    // Add the new tour and associated images
                     var result = await _tourServices.AddingNewTour(tours);
 
                     return Created("tourPackages created", result);
@@ -44,7 +44,7 @@ namespace ToursimPackageService.Controllers
         }
 
 
-        [HttpPost]
+        [HttpGet]
         [ProducesResponseType(typeof(TourDetailsDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
@@ -127,6 +127,13 @@ namespace ToursimPackageService.Controllers
                 _logger.LogError(ex.Message);
             }
             return BadRequest("unable to fetch");
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<TotalDaysDescription>>> getAll()
+        {
+            var objects =  await _tourServices.GetAllDescriptions();
+            return Ok(objects);
         }
     }
 }
